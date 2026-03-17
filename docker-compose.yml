@@ -1,0 +1,26 @@
+services:
+  opencti-kuma-proxy:
+    image: opencti-kuma-proxy:1.1
+    expose:
+      - "8000"
+    command: >
+      gunicorn app.main:app -k uvicorn.workers.UvicornWorker --workers 18 --bind 0.0.0.0:8000 --log-level info
+    volumes:
+    - /app/opencti/kuma-opencti-proxy:/app
+    environment:
+      - OPENCTI_URL_INTEGRATION=${OPENCTI_URL_INTEGRATION}
+      - OPENCTI_URL=${OPENCTI_URL}
+      - OPENCTI_TOKEN=${OPENCTI_TOKEN}
+      - LOOKUP_BASIC_USER=${LOOKUP_BASIC_USER}
+      - LOOKUP_BASIC_PASSWORD=${LOOKUP_BASIC_PASSWORD}
+      - OPENCTI_TLS_VERIFY=false
+      - HTTP_TIMEOUT_SECONDS=60
+      - HTTP_RETRIES=2
+      - BATCH_SIZE=40
+      - CONCURRENCY=10
+    restart: always
+    depends_on:
+      opencti:
+        condition: service_healthy
+    networks:
+      - openctinet
