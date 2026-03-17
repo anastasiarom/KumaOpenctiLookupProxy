@@ -47,6 +47,8 @@ Checks KUMA indicators against OpenCTI.
 
 Checks the health status of the service.
 
+---
+
 ## Docker
 
 | Переменная | Описание                                                         | Default                    |
@@ -62,8 +64,6 @@ Checks the health status of the service.
 | `BATCH_SIZE` | Number of indicators per batch request                     | `40`                       |
 | `CONCURRENCY` | Maximum number of concurrent requests                    | `10`                       |
 
----
-
 ### Docker build
 
 ```bash
@@ -74,6 +74,8 @@ docker build -t opencti-kuma-proxy:1.1 .
 ```bash
 docker compose --env-file .env -f ./docker-compose.yml up -d
 ```
+
+---
 
 ## Note
 If you need to maximize search speed, replace the "contains" operator in your GraphQL queries with the "eq" operator. This will significantly improve response speed, but if you initially search for "url," for example, the search results won't be expanded to include domain name or IP address information, and vice versa.
